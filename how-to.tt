@@ -374,6 +374,31 @@
         OR step == 3 %]
     var qa_step = 0;
     var current_qa = qas[qa_step];
+    var points = 0;
+
+    function get_previous_score() {
+        var score = sessionStorage.getItem('koha-howto');
+        if ( score ) {
+            score = JSON.parse(score);
+            var previous_score = score['[% step %]-[% substep %]'];
+            return previous_score;
+        }
+    }
+    function get_current_score() {
+        return points + '/' + $(qas).size();
+    }
+
+    function store_current_score() {
+        var score = sessionStorage.getItem('koha-howto');
+        if ( score ) {
+            score = JSON.parse(score);
+        } else {
+            score = {};
+        }
+        score['[% step %]-[% substep %]'] = get_current_score();
+        sessionStorage.setItem('koha-howto', JSON.stringify(score));
+    }
+
     function next () {
         current_qa = qas[qa_step];
         var done = $("#current_qa").clone();
@@ -382,6 +407,7 @@
         if ( validate( current_qa, a ) ) {
             $(done).find(".status").html('<i class="fa fa-fw fa-check"></i>');
             $(done).find(".answer").html('');
+            points += 1;
         } else {
             $(done).find(".status").html('<i class="fa fa-fw fa-remove"></i>');
             var wrong_answer;
@@ -404,25 +430,31 @@
         window.scrollTo(0,document.body.scrollHeight);
 
         if ( $(qas).size() > qa_step + 1 ) {
+            // Display next Q&A
             qa_step++;
             display_qa(qas[qa_step]);
             $("#current_qa > .answer > :first").focus();
         } else {
+            // No more Q&A
             $("#current_qa").remove();
             $("#validate").hide();
+            var score = get_current_score();
+            store_current_score();
+            $("<div class='score'>Score: "+score+"</div>").insertBefore("#next_step");
             $("#next_step").off("click").text(_('Continue to the next step'));
         }
     }
+
     function get_user_answer() {
         var a = $("#current_qa > .answer");
         if ( current_qa['type'] == 'option' ) {
             a = $(a).find('select > option:selected').val();
         } else if ( current_qa['type'] == 'text' ) {
             a = $(a).find('input[type="text"]').val();
-            console.log(a);
         }
         return a;
     }
+
     function validate( q, a ) {
         if ( q['type'] == 'option' ) {
             a = $('#current_qa > .answer > select > option:selected').val();
@@ -468,7 +500,14 @@
     $(document).ready(function(){
         display_qa( qas[0] );
         $("#validate").on('click', function(e){e.preventDefault(); next();});
-        $("#next_step").on('click', function(e){return confirm( _("Are you sure you want to skip this step?") );});
+        $("#next_step").on('click', function(e){
+            return confirm( _("Are you sure you want to skip this step?"));
+        });
+
+        var previous_score = get_previous_score();
+        if ( previous_score ) {
+            $("h1").append(" (<span class='score'>Previous score: "+previous_score+"</span>)");
+        }
     });
     [% END %]
 
