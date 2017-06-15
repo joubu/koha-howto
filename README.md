@@ -1,25 +1,25 @@
 # Koha How-to
 
-The goal of this project is to provide a quick and simple way to immerse yourself in the Koha development process.
+The goal of this project is to provide a quick and easy way to immerse yourself in the Koha development process.
 
-It aims people that wants to
+The project is for you if you want to
  * join the Koha development team
- * submit their first patch
- * test their first patch
+ * submit your first patch
+ * test your first patch
 
 ## Getting started
 
 ### Open an account on bugzilla
 
-To share patch with the Koha community or comment on the bug report you will need <a href="https://bugs.koha-community.org/bugzilla3/createaccount.cgi">Create an account</a>.
+To share patches with the Koha community or to comment bug reports you will need to <a href="https://bugs.koha-community.org/bugzilla3/createaccount.cgi">create an account</a>.
 
 ### Koha development environment
 
-You need a working Koha development environment.
+You will need a working Koha development environment to contribute to Koha.
 
-The quickest and easiest way to do so is to create a virtual machine using [KohaDevBox](https://github.com/digibib/kohadevbox).
+The quickest and easiest way to get one is to create a virtual machine using [KohaDevBox](https://github.com/digibib/kohadevbox).
 
-Do not forget to fill the vars/user.yml file with your bugzilla credentials.
+Do not forget to add your bugzilla user credentials to vars/user.yml.
 
 ### Set up the How-to
 
@@ -28,10 +28,10 @@ Clone this project:
 % git clone https://github.com/joubu/koha-howto
 ```
 
-Then copy the file to your Koha repo. If you are using a virtual machine created with KohaDevBox:
+Then copy the how-to.pl and how-to.tt files to your Koha repo. If you are using a virtual machine created with KohaDevBox you can do the following after cloning the project inside your devbox:
 ```
-% cp how-to.pl /home/vagrant/kohaclone/
-% cp how-to.tt /home/vagrant/kohaclone/koha-tmpl/intranet-tmpl/prog/en/modules/
+% cp /home/vagrant/koha-howto/how-to.pl /home/vagrant/kohaclone/
+% cp /home/vagrant/koha-howto/how-to.tt /home/vagrant/kohaclone/koha-tmpl/intranet-tmpl/prog/en/modules/
 ```
 
 Restart Plack
@@ -41,8 +41,9 @@ Restart Plack
 
 ### Follow the tutorial
 
-Hit [/cgi-bin/koha/how-to.pl](http://localhost:8081/cgi-bin/koha/how-to.pl) and follow the different steps of the tutorial.
-The first steps are a quick quizz to make sure you understood the basis of our workflow, the you will be guided to
+With your devbox running, visit [/cgi-bin/koha/how-to.pl](http://localhost:8081/cgi-bin/koha/how-to.pl) and follow the instructions of the tutorial.
+
+The first steps are a quick quizz to make sure you understand the basic principles of our workflow. After this you will then be guided to:
  * Create your first patch
  * Make sure you patch follows our main guidelines
  * Share your patch with the Koha community
@@ -53,7 +54,7 @@ The first steps are a quick quizz to make sure you understood the basis of our w
 
 All the dependencies you need should be installed by KohaDevBox.
 
-In case it is not done yet, check that you have bugz
+In case this is not the case then you should only have to install bugz apart from Koha itself.
 
 ```
 % apt install bugz
